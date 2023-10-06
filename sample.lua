@@ -26,6 +26,8 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 	if moz.Y < VPF.AbsolutePosition.Y then warn("Up.") return end
 	
 	-- NORMALIZE, PLEASE.
+	-- NOTE: I won't do this, but normalize the damn thing correctly.
+	-- TODO: Multiply by the scale of the model, which is based on how far the camera is from the model. Absolute size (?) of frame included.
 	RAYCAST_POSITION *= Vector3.new(-0.02,0.02,0)
 	RAYCAST_POSITION += Vector3.new(0,.65,0)
 	
