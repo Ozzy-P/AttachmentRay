@@ -8,7 +8,7 @@ local PR = game:GetService("Players")
 local LP = PR.LocalPlayer
 
 local filter = {}
-for _,v in pairs(workspace["FembOwOy"]:GetChildren()) do
+for _,v in pairs(workspace["REDACTED"]:GetChildren()) do
 	if v:IsA("MeshPart") then
 		table.insert(filter,v)
 	end
@@ -42,7 +42,7 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 
 	local rayCastResult = workspace:Raycast(Vector3.new(),RAY_ORIGIN,params)
 	if rayCastResult then
-		local normalizedPosition = rayCastResult.Position - rayCastResult.Instance.Position
+		local normalizedPosition = (rayCastResult.Position*Vector3.new(1,1,-1)) - (rayCastResult.Instance.Position*Vector3.new(1,1,-1))
 		local AP = Instance.new("Part")
 		AP.Size = Vector3.new(0.15,0.15,0.15)
 		AP.CFrame = CFrame.new() + (rayCastResult.Position + Vector3.new(0,0,.25))
@@ -57,10 +57,6 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 		characterATAT.Parent = LP.Character[rayCastResult.Instance.Name] or LP.CharacterAdded:Wait():WaitForChild(rayCastResult.Instance.Name)
 		characterATAT.Visible = true
 	end
-
-
-	--warn(rayCastResult)
-
 end
 
 CS:BindAction("CAST_RAY",CREATE_ATTACHMENT,false,Enum.KeyCode.R)
