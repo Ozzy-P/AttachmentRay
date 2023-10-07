@@ -32,8 +32,8 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 	if INPUT_STATE ~= Enum.UserInputState.Begin then return end
 	local moz = UIS:GetMouseLocation()
 	RAYCAST_POSITION = Vector3.new(VPF.AbsolutePosition.X + VPF.AbsoluteSize.X/2 - moz.X,VPF.AbsolutePosition.Y + VPF.AbsoluteSize.Y/2 - moz.Y + UI_INSET,0)
-	if moz.X < VPF.AbsolutePosition.X then warn("Leftist.") return end
-	if moz.Y < VPF.AbsolutePosition.Y then warn("Go down.") return end
+	if moz.X < VPF.AbsolutePosition.X or moz.X > VPF.AbsolutePosition.X + VPF.AbsoluteSize.X then warn("Politically charged, eh?") return end
+	if moz.Y < VPF.AbsolutePosition.Y or moz.Y > VPF.AbsolutePosition.Y + VPF.AbsoluteSize.Y*1.5 then warn("Not a centrist I take it?") return end
 	
 	-- ScreenPointToRay => ViewportPointToRay
 	--warn(WPC:ViewportPointToRay(-RAYCAST_POSITION.X,-RAYCAST_POSITION.Y,5))
@@ -43,7 +43,7 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 
 	local rayCastResult = workspace:Raycast(Vector3.new(),RAY_ORIGIN,params)
 	if rayCastResult then
-		local normalizedPosition = (rayCastResult.Position*Vector3.new(1,1,-1)) - (rayCastResult.Instance.Position*Vector3.new(1,1,-1))
+		local normalizedPosition = (rayCastResult.Position*Vector3.new(-1,1,-1)) - (rayCastResult.Instance.Position*Vector3.new(-1,1,-1))
 		local AP = Instance.new("Part")
 		AP.Size = Vector3.new(0.15,0.15,0.15)
 		AP.CFrame = CFrame.new() + (rayCastResult.Position + Vector3.new(0,0,.25))
