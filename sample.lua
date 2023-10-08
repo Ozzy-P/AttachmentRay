@@ -1,5 +1,6 @@
 -- HALF-PROTO
 local function CREATE_ATTACHMENT(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3) end
+local function CHANGE_LIMB(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3) end
 local workspace = script.Parent
 local VPF = workspace.Parent
 local UIS = game:GetService("UserInputService")
@@ -8,9 +9,10 @@ local PR = game:GetService("Players")
 local GUI = game:GetService("GuiService")
 local IK = require(script.IKC)
 local LP = PR.LocalPlayer
+local TARGET_VIEWPORT = workspace["FembOwOy"]
 
 local filter = {}
-for _,v in pairs(workspace["FembOwOy"]:GetChildren()) do
+for _,v in pairs(TARGET_VIEWPORT:GetChildren()) do
 	if v:IsA("MeshPart") then
 		table.insert(filter,v)
 	end
@@ -27,7 +29,7 @@ WPC.Parent = workspace.Parent
 VPF.CurrentCamera = WPC
 WPC.CFrame = CFrame.new() + Vector3.new(0,0,0)--CFrame.new(0, 20, 20, 1, 0, 0, 0, 0.707106709, 0.707106829, 0, -0.707106829, 0.707106709)
 
-local POS_SCALE = (WPC:WorldToViewportPoint(Vector3.new(1,1,-5)) - WPC:WorldToViewportPoint(Vector3.new(0,0,-5))).X*2
+local POS_SCALE = (WPC:WorldToViewportPoint(Vector3.new(1,1,TARGET_VIEWPORT.PrimaryPart.Position.Z)) - WPC:WorldToViewportPoint(Vector3.new(0,0,TARGET_VIEWPORT.PrimaryPart.Position.Z))).X*2
 local UI_INSET = GUI:GetGuiInset().Y
 
 local function GET_RAY()
@@ -42,7 +44,7 @@ CREATE_ATTACHMENT = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3
 	if INPUT_STATE ~= Enum.UserInputState.Begin then return end
 	
 	local SP_RAY = GET_RAY()
-	local RAY_ORIGIN,RAY_DIRECTION = SP_RAY.Origin * Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) - Vector3.new(0,0,5.5), SP_RAY.Direction*Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) - Vector3.new(0,0,5.5)
+	local RAY_ORIGIN,RAY_DIRECTION = SP_RAY.Origin * Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) + Vector3.new(0,0,TARGET_VIEWPORT.PrimaryPart.Position.Z), SP_RAY.Direction*Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) + Vector3.new(0,0,TARGET_VIEWPORT.PrimaryPart.Position.Z)
 
 	local rayCastResult = workspace:Raycast(Vector3.new(),RAY_ORIGIN,params)
 	if rayCastResult then
@@ -57,7 +59,7 @@ CHANGE_LIMB = function(CONTEXT_NAME, INPUT_STATE, RAYCAST_POSITION:Vector3)
 	--warn(WPC:ViewportPointToRay(-RAYCAST_POSITION.X,-RAYCAST_POSITION.Y,5))
 
 	local SP_RAY = GET_RAY()
-	local RAY_ORIGIN,RAY_DIRECTION = SP_RAY.Origin * Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) - Vector3.new(0,0,5.5), SP_RAY.Direction*Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) - Vector3.new(0,0,5.5)
+	local RAY_ORIGIN,RAY_DIRECTION = SP_RAY.Origin * Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) + Vector3.new(0,0,TARGET_VIEWPORT.PrimaryPart.Position.Z), SP_RAY.Direction*Vector3.new(POS_SCALE,POS_SCALE,POS_SCALE) + Vector3.new(0,0,TARGET_VIEWPORT.PrimaryPart.Position.Z)
 
 	local rayCastResult = workspace:Raycast(Vector3.new(),RAY_ORIGIN,params)
 	if rayCastResult then
